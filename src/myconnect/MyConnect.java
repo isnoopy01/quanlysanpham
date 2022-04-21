@@ -141,15 +141,15 @@ public class MyConnect {
         return productLt;
     }
 
-    public static void insertUser(User us){
-        String query ="INSERT INTO information(username,password,fullname,emai) values (?,?,?,?)";
+    public static void register(User user){
+        String query ="INSERT INTO information(username,password,fullname,email) values (?,?,?,?)";
         try {
             Connection conn = getConnection();
             PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, us.getUsername());
-            pstmt.setString(2, us.getPassword());
-            pstmt.setString(3, us.getFullname());
-            pstmt.setString(4, us.getEmail());
+            pstmt.setString(1, user.getUsername());
+            pstmt.setString(2, user.getPassword());
+            pstmt.setString(3, user.getFullname());
+            pstmt.setString(4, user.getEmail());
             pstmt.executeUpdate();
             
         } catch (Exception e) {

@@ -10,7 +10,6 @@ package myconnect;
  * @author minht
  */
 public class User {
-
     private String username;
     private String password;
     private String fullname;
@@ -60,6 +59,5 @@ public class User {
 
     
 
-    
     
 }
