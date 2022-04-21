@@ -9,6 +9,7 @@ package myconnect;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -138,6 +139,43 @@ public class MyConnect {
             
         }
         return productLt;
+    }
+
+    public static void insertUser(User us){
+        String query ="INSERT INTO information(username,password,fullname,emai) values (?,?,?,?)";
+        try {
+            Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, us.getUsername());
+            pstmt.setString(2, us.getPassword());
+            pstmt.setString(3, us.getFullname());
+            pstmt.setString(4, us.getEmail());
+            pstmt.executeUpdate();
+            
+        } catch (Exception e) {
+        }
+    }
+    
+    public static List<User> findUser(User us){
+        List<User> userList = new ArrayList<>();
+        String query = "select * from information where username = '"+us.getUsername()+"' AND password = '"+us.getPassword()+"'";
+        try{
+            Connection conn = getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs;
+            rs = stmt.executeQuery(query);
+            if(rs.next()){
+              FormProduct fp = new FormProduct();
+              fp.setVisible(true);
+              Login lg = new Login();
+              lg.setVisible(false);
+            }else {
+                JOptionPane.showMessageDialog(null, "Đăng nhập thất bại");
+            }
+        } catch(Exception ex){
+            
+        }
+        return userList;
     }
     public static void main(String[] args) {
         // TODO code application logic here

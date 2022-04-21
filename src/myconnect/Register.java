@@ -5,6 +5,12 @@
  */
 package myconnect;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+
 /**
  *
  * @author minht
@@ -17,7 +23,31 @@ public class Register extends javax.swing.JFrame {
     public Register() {
         initComponents();
     }
-
+    public static String getMd5(String input) 
+    { 
+        try { 
+            // Static getInstance method is called with hashing MD5 
+            MessageDigest md = MessageDigest.getInstance("MD5"); 
+  
+            // digest() method is called to calculate message digest 
+            //  of an input digest() return array of byte 
+            byte[] messageDigest = md.digest(input.getBytes()); 
+  
+            // Convert byte array into signum representation 
+            BigInteger no = new BigInteger(1, messageDigest); 
+  
+            // Convert message digest into hex value 
+            String hashtext = no.toString(16); 
+            while (hashtext.length() < 32) { 
+                hashtext = "0" + hashtext; 
+            } 
+            return hashtext; 
+        }  
+        // For specifying wrong message digest algorithms 
+        catch (NoSuchAlgorithmException e) { 
+            throw new RuntimeException(e); 
+        } 
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,7 +70,7 @@ public class Register extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         txtCfPassword = new javax.swing.JPasswordField();
-        txtPassword1 = new javax.swing.JPasswordField();
+        txtPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,10 +131,10 @@ public class Register extends javax.swing.JFrame {
             }
         });
 
-        txtPassword1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        txtPassword1.addActionListener(new java.awt.event.ActionListener() {
+        txtPassword.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPassword1ActionPerformed(evt);
+                txtPasswordActionPerformed(evt);
             }
         });
 
@@ -140,7 +170,7 @@ public class Register extends javax.swing.JFrame {
                             .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtFullname, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtCfPassword)
-                            .addComponent(txtPassword1))))
+                            .addComponent(txtPassword))))
                 .addGap(124, 124, 124))
         );
         layout.setVerticalGroup(
@@ -155,7 +185,7 @@ public class Register extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -182,6 +212,22 @@ public class Register extends javax.swing.JFrame {
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         // TODO add your handling code here:
+        String password = String.valueOf(txtPassword.getPassword());
+        String cfpassword = String.valueOf(txtCfPassword.getPassword());
+        if(txtUsername.getText() == "" || txtPassword.getText() == "" || txtCfPassword.getText() =="" || txtFullname.getText()=="" || txtEmail.getText() == "")
+        {
+            JOptionPane.showMessageDialog(null, "Không được để trống");
+            
+        }else {
+                User us = new User();
+                us.setUsername(txtUsername.getText());
+                String pass =getMd5(password) ;
+                us.setPassword(pass);
+                us.setFullname(txtFullname.getText());
+                us.setEmail(txtEmail.getText());
+                MyConnect.insertUser(us);
+                JOptionPane.showMessageDialog(null, "Tạo tài khoản thành công");
+        }
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
@@ -192,9 +238,9 @@ public class Register extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCfPasswordActionPerformed
 
-    private void txtPassword1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassword1ActionPerformed
+    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtPassword1ActionPerformed
+    }//GEN-LAST:event_txtPasswordActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         // TODO add your handling code here:
@@ -256,7 +302,7 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtCfPassword;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtFullname;
-    private javax.swing.JPasswordField txtPassword1;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

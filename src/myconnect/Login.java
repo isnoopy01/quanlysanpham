@@ -5,6 +5,8 @@
  */
 package myconnect;
 
+import static myconnect.Register.getMd5;
+
 /**
  *
  * @author minht
@@ -150,9 +152,15 @@ public class Login extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        FormProduct fprd = new FormProduct();
-        fprd.setVisible(true);
-        this.setVisible(false);
+        User us = new User();
+        String password = String.valueOf(txtPassword.getPassword());
+        String pass =getMd5(password);
+        us.setPassword(pass);
+        us.setUsername(txtUsername.getText());
+        MyConnect.findUser(us);
+//        FormProduct fprd = new FormProduct();
+//        fprd.setVisible(true);
+//        this.setVisible(false);
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
