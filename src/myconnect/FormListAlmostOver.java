@@ -20,7 +20,7 @@ public class FormListAlmostOver extends javax.swing.JFrame {
      */
     public FormListAlmostOver() {
         initComponents();
-         showData(MyConnect.findAll());
+         showData(MyConnect.findAllAlmostOver());
     }
     public void showData (List<Product> productl){
         List<Product> listProduct = new ArrayList<>();
