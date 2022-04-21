@@ -141,8 +141,8 @@ public class MyConnect {
     }
     public static void main(String[] args) {
         // TODO code application logic here
-        FormProduct fprd = new FormProduct();
-        fprd.setVisible(true);
+        Login lg = new Login();
+        lg.setVisible(true);
         
     }
     
